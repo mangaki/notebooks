@@ -1,0 +1,513 @@
+1230/1: import json
+1230/2: ls
+1230/3:
+with open('mangaki_i2v.json') as f:
+    results = json.load(f)
+1230/4:
+with open('mangkai_i2v.json') as f:
+    results = json.load(f)
+1230/5: results
+1230/6: pdict = {'ID': [], 'safe': [], 'questionable': [], 'explicit': []}
+1230/7:
+works = results
+for key, value in works.items():
+    pdict['ID'].append(key)
+    rating = dict(value['rating'])
+    pdict['safe'].append(rating['safe'])
+    pdict['explicit'].append(rating['explicit'])
+    pdict['questionable'].append(rating['questionable'])
+1230/8: nsfw_reg = pd.DataFrame(nsfw2, columns=['ID', 'reg']).set_index('ID')
+1230/9: df = pd.DataFrame(pdict).set_index('ID')
+1230/10: import pandas as pd
+1230/11: df = pd.DataFrame(pdict).set_index('ID')
+1230/12: from sklearn.linear_model import LogisticRegressionCV
+1230/13: clf = LogisticRegressionCV()
+1230/14: X = df.loc[dict(dataset).keys()]
+1230/15: questions = df.sample(n=100).index.tolist()
+1230/16:
+import os
+answers = []
+for q in questions:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(q))
+    answers.append(input())
+1230/17:
+import os
+answers = []
+for q in questions:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(q))
+    answers.append(input())
+1230/18: questions[0]
+1230/19:
+import os
+answers = []
+for q in questions:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(q))
+    answers.append(input())
+1230/20: answers
+1230/21: len(a for a in answers if a== '1')
+1230/22: sum(a for a in answers if a== '1')
+1230/23: sum(1 for a in answers if a== '1')
+1230/24: # dataset.update(dict(zip(questions, answers)))
+1230/25: dataset = dict(zip(questions, answers))
+1230/26: dataset = list(dataset.items())
+1230/27: dataset
+1230/28: X = df.loc[dict(dataset).keys()]
+1230/29: y = np.array(list(map(int, dict(dataset).values())))
+1230/30: import numpy as np
+1230/31: y = np.array(list(map(int, dict(dataset).values())))
+1230/32: clf = LogisticRegressionCV()
+1230/33: clf.fit(X, y)
+1230/34: clf.score(X, y)
+1230/35: # nsfw_clf = pd.Series([v for k, v in nsfw], [k for k, v in nsfw])
+1230/36: nsfw = list(zip(df.index, clf.predict_proba(df)[:, 1]))
+1230/37: nsfw_clf = pd.Series([v for k, v in nsfw], [k for k, v in nsfw])
+1230/38: nsfw_clf > 0.9
+1230/39: nsfw_clf[nsfw_clf > 0.9]
+1230/40: nsfw_clf[nsfw_clf > 0.7]
+1230/41: nsfw_clf[nsfw_clf > 0.7].shape
+1230/42:
+for i in nsfw_clf[nsfw_clf > 0.7].index:
+    print(i)
+    break
+1230/43:
+for i in nsfw_clf[nsfw_clf > 0.7].index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+1230/44:
+for i in nsfw_clf[nsfw_clf > 0.7].index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+1230/45:
+for i in nsfw_clf[nsfw_clf > 0.7].index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/46:
+for i in nsfw_clf[nsfw_clf > 0.7].index[10:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/47:
+for i in nsfw_clf[(nsfw_clf > 0.6) & (nsfw_clf < 0.7)].index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/48:
+for i in nsfw_clf[(nsfw_clf > 0.5) & (nsfw_clf < 0.6)].index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/49: nsfw_clf[(nsfw_clf > 0.5) & (nsfw_clf < 0.6)].shape
+1230/50:
+for i in nsfw_clf[(nsfw_clf > 0.5) & (nsfw_clf < 0.6)].index[30:40:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/51:
+for i in nsfw_clf[(nsfw_clf > 0.5) & (nsfw_clf < 0.6)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/52:
+for i in nsfw_clf[(nsfw_clf > 0.4) & (nsfw_clf < 0.5)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/53: nsfw_clf[(nsfw_clf > 0.4)].shape
+1230/54: nsfw_clf[(nsfw_clf > 0.4)].shape[0] / nsfw_clf.shape[0]
+1230/55: nsfw_clf[(nsfw_clf > 0.4)].shape[0] / nsfw_clf.shape[0] * 100
+1230/56:
+for i in nsfw_clf[(nsfw_clf > 0.3) & (nsfw_clf < 0.4)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/57:
+for i in nsfw_clf[(nsfw_clf > 0.2) & (nsfw_clf < 0.3)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/58:
+for i in nsfw_clf[(nsfw_clf > 0.1) & (nsfw_clf < 0.2)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/59:
+for i in nsfw_clf[(nsfw_clf > -0.1) & (nsfw_clf < 0.1)].index[30:40]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/60:
+import i2v
+from PIL import Image
+
+illust2vec = i2v.make_i2v_with_chainer(
+    "illust2vec_tag_ver200.caffemodel", "tag_list.json")
+
+# In the case of caffe, please use i2v.make_i2v_with_caffe instead:
+# illust2vec = i2v.make_i2v_with_caffe(
+#     "illust2vec_tag.prototxt", "illust2vec_tag_ver200.caffemodel",
+#     "tag_list.json")
+
+img = Image.open("images/miku.jpg")
+illust2vec.estimate_plausible_tags([img], threshold=0.5)
+1230/61:
+def group(it, size=10):
+    stopped = False
+    while not stopped:
+        chunk = []
+        for i in range(size):
+            try:
+                chunk.append(next(it))
+            except StopIteration:
+                stopped = True
+                break
+        if chunk:
+            yield chunk
+1230/62: import progressbar
+1230/63: bar = progressbar.ProgressBar()
+1230/64:
+works = {}
+for n_batches, images in bar(enumerate(group(os.scandir('/data/elarnon/mangaki_posters/'), size=4))):
+    work_ids = [int(os.path.splitext(os.path.basename(image.path))[0]) for image in images]
+    data = [(work_id, image) for work_id, image in zip(work_ids, images) if work_id not in works]
+    if not data:
+        continue
+    results = illust2vec.estimate_plausible_tags([Image.open(im.path) for _, im in data], threshold=0.1)
+    for result in results:
+        result['rating'] = list(result['rating'])
+    works.update(zip(work_ids, results))
+1230/65:   works.values()[0]
+1230/66: list(works.values())[0]
+1230/67:
+with open('mangaki_i2v_all.json', 'w') as f:
+    json.dump(works, f)
+1230/68: general_tags = {tag for work in works.values() for tag, value in work['general']}
+1230/69: general_tags
+1230/70: len(general_tags)
+1230/71: rating_tags = {tag for work in works.values() for tag, value in work['rating']}
+1230/72: rating_tags
+1230/73: general_tasg
+1230/74: general_tags
+1230/75: len(works)
+1230/76: pd.DataFrame?
+1230/77: pd.DataFrame(index=['A'], columns=['a', 'b'])
+1230/78: df = pd.DataFrame(index=['A'], columns=['a', 'b'])
+1230/79: df = pd.DataFrame(columns=['a', 'b'])
+1230/80: df
+1230/81: df.add((0, 1))
+1230/82: df
+1230/83: general_tags
+1230/84: rating_tags
+1230/85: for work_id, work in work.items():
+1230/86: general_data = {tag: np.zeros((len(works),), dtype=np.float32) for tag in general_tags}
+1230/87: rating_data = {tag: np.zeros((len(works),), dtype=np.float32) for tag in rating_tags}
+1230/88:
+index = []
+for i, (work_id, tags) in enumerate(works.items()):
+    index.append(work_id)
+    for tag, value in tags['general']:
+        general_data[tag][i] = value
+    for tag, value in tags['rating']:
+        rating_data[tag][i] = value
+1230/89: wat = ({**general_data, **rating_data}
+1230/90: wat = {**general_data, **rating_data}
+1230/91: wat
+1230/92: df = pd.DataFrame(data={**general_data, **rating_data}, index=index)
+1230/93: df
+1230/94: df = pd.DataFrame(data={**general_data, **rating_data}, index=index, columns=list(sorted(general_data)) + list(sorted(rating_data)))
+1230/95: df
+1230/96: df.sort_index(inplace=True)
+1230/97: df
+1230/98: df.to_csv?
+1230/99: df.to_csv('mangaki_tags.csv')
+1230/100: from sklearn.linear_model import ElasticNetCV
+1230/101: ElasticNetCV?
+1230/102: ElasticNetCV?
+1230/103: en = ElasticNetCV()
+1230/104: general_tags
+1230/105: df[general_tags]
+1230/106: df[list(general_tags)]
+1230/107: X = df[list(general_tags)]
+1230/108: y = df[list(rating_tags)]
+1230/109: en = ElasticNetCV()
+1230/110: en.fit(X, y)
+1230/111: en.fit(X, y['safe'])
+1230/112: en_safe = ElasticNetCV().fit(X, y['safe'])
+1230/113: en_explicit = ElasticNetCV().fit(X, y['explicit'])
+1230/114: en_questionable = ElasticNetCV().fit(X, y['questionable'])
+1230/115: en_safe.coef_
+1230/116: X
+1230/117: en_safe.dual_gap_
+1230/118: en_safe.score(X, y['safe'])
+1230/119: en_safe.score(X, y['questionable'])
+1230/120: en_safe.score(X, -y['questionable'])
+1230/121: en_safe.score(X, 1 - y['questionable'])
+1230/122: en_safe.score(X, 1 - y['explicit'])
+1230/123: en_safe.selection?
+1230/124: en_safe.selection
+1230/125: en_safe.positive
+1230/126: en_safe.intercept_
+1230/127: en_safe.alpha_
+1230/128: en_safe.alphas
+1230/129: en_safe.coef_
+1230/130: en_safe.cv
+1230/131: en_safe.mse_path_
+1230/132: en_safe.alphas_
+1230/133: en_safe.l1_ratio_
+1230/134: en_safe = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y['safe'])
+1230/135: en_safe.l1_ratio_
+1230/136: en_safe.score(X, 1 - y['explicit'])
+1230/137: en_safe.score(X, 1 - y['questionable'])
+1230/138: en_safe.score(X, y['safe'])
+1230/139: en_safe.coef_
+1230/140: X.columns
+1230/141: zip(X.columns, en_safe.coef_)
+1230/142: pd.Series(zip(X.columns, en_safe.coef_))
+1230/143: pd.Series?
+1230/144: safe_coefs = pd.Series(en_safe.coef_, X.columns)
+1230/145: safe_coefs.sort_values()
+1230/146: en_explicit = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y['explicit'])
+1230/147: en_explicit.l1_ratio_
+1230/148: en_explicit.scoe(X, y['explicit'])
+1230/149: en_explicit.score(X, y['explicit'])
+1230/150: explicit_coefs = pd.Series(en_explicit.coef_, X.columns)
+1230/151: explicit_coefs.sort_values()
+1230/152: from sklearn.preprocessing import LabelBinarizer
+1230/153: LabelBinarizer?
+1230/154: df
+1230/155: import numpy as np
+1230/156: np.histogram(df['safe'])
+1230/157: _, thresholds = np.histogram(df['safe'])
+1230/158: len(thresholds)
+1230/159: np.random.randint(0, 10)
+1230/160: np.random.randint(0, 10)
+1230/161: np.random.randint(0, 10)
+1230/162: np.random.randint(0, 10)
+1230/163: np.random.randint(0, 10)
+1230/164: np.random.randint(0, 10)
+1230/165: np.random.randint(0, 10)
+1230/166: np.random.randint(0, 10)
+1230/167: np.random.randint(0, 10)
+1230/168: np.random.randint(0, 10)
+1230/169: np.random.randint(0, 1)
+1230/170: np.random.randint(0, 1)
+1230/171: np.random.randint(0, 1)
+1230/172: np.random.randint(0, 1)
+1230/173: np.random.randint(0, 1)
+1230/174: np.random.randint(0, 1)
+1230/175: np.random.randint(0, 11)
+1230/176: np.random.randint(0, 11)
+1230/177: bin_id = np.random.randint(0, 10)
+1230/178: df[(df['safe'] > thresholds[bin_id]) & df['safe'] < thresholds[bin_id + 1])]
+1230/179: df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1)]]
+1230/180: df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1])]
+1230/181: bin_id = np.random.randint(0, 10)
+1230/182: bin_id = np.random.randint(0, 10); df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1])]
+1230/183: bin_id = np.random.randint(0, 10); df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1])]
+1230/184: bin_id = np.random.randint(0, 10); np.random.choice(df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1])])
+1230/185: bin_id = np.random.randint(0, 10); df[(df['safe'] > thresholds[bin_id]) & (df['safe'] < thresholds[bin_id + 1])].sample(n=1)
+1230/186: df.sample/
+1230/187: df.sample?
+1230/188: bin_size, thresholds = np.histogram(df['safe'])
+1230/189: len(bin_size)
+1230/190: len(thresholds)
+1230/191: np.histogram?
+1230/192: size, bin_edges = np.histogram(df['safe'])
+1230/193: np.histogram?
+1230/194: hist, bin_edges = np.histogram(df['safe'])
+1230/195: np.diff(bin_edges)
+1230/196: np.digitize?
+1230/197: hist, bin_edges = np.histogram(df['safe'])
+1230/198: np.digitize(df['safe'], bin_edges)
+1230/199: hist[np.digitize(df['safe'], bin_edges)]
+1230/200: hist[np.digitize(df['safe'], bin_edges) - 1]
+1230/201: np.digitize(df['safe'], bin_edges).max()
+1230/202: np.digitize(df['safe'], bin_edges).min()
+1230/203: np.digitize(df['safe'], bin_edges) == 11
+1230/204: (np.digitize(df['safe'], bin_edges) == 11).sum()
+1230/205: hist[np.min(np.digitize(df['safe'], bin_edges), 10) - 1]
+1230/206: hist[np.minimum(np.digitize(df['safe'], bin_edges), 10) - 1]
+1230/207: hist
+1230/208: weights = hist[np.minimum(np.digitize(df['safe'], bin_edges), 10) - 1]
+1230/209: df.sample(weights=weights)
+1230/210: df.sample(n=10, weights=weights)['safe']
+1230/211: df.sample(n=10, weights=1 / weights)['safe']
+1230/212: df.sample(n=10, weights=1 / weights)['safe']
+1230/213: df.sample(n=10, weights=1 / weights)['safe']
+1230/214: df.sample(n=10, weights=1 / weights)
+1230/215: df.sample(n=10, weights=1 / weights).index
+1230/216:
+def ask():
+    questions = df.sample(n=10, weights=1 / weights).index
+    for i in questions:
+        os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(int(i)))
+        answers.append(bool(input()))
+    return dict(zip(questions, answers))
+1230/217: session = ask()
+1230/218:
+def ask(n=10):
+    questions = df.sample(n=n, weights=1 / weights).index
+    for i in questions:
+        os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(int(i)))
+        answers.append(bool(input()))
+    return dict(zip(questions, answers))
+1230/219: dataset = {**session, **ask(n=90)}
+1230/220: dataset
+1230/221: len(dataset)
+1230/222: dataset = pd.Series(data=dataset.values(), index=dataset.keys())
+1230/223: dataset
+1230/224: dataset = _220
+1230/225: dataset
+1230/226: # dataset = {k: bool(v) for k, v in dataset.items()}
+1230/227: boo('0')
+1230/228: bool('0')
+1230/229: bool('1')
+1230/230: dataset = {k: bool(int(v)) for k, v in dataset.items()}
+1230/231: dataset
+1230/232:
+def ask(n=10):
+    questions = df.sample(n=n, weights=1 / weights).index
+    for i in questions:
+        os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(int(i)))
+        answers.append(bool(int(input())))
+    return dict(zip(questions, answers))
+1230/233: bool(0)
+1230/234:
+def ask(n=10):
+    questions = df.sample(n=n, weights=1 / weights).index
+    answers = []
+    for i in questions:
+        os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(int(i)))
+        answers.append(bool(int(input())))
+    return dict(zip(questions, answers))
+1230/235: dataset = ask(n=100)
+1230/236: dataset
+1230/237: dataset = pd.Series(data=dataset.values(), index=dataset.keys())
+1230/238: dataset
+1230/239: dataset.values()
+1230/240: dataset = pd.Series(data=list(dataset.values()), index=list(dataset.keys()))
+1230/241: # dataset = pd.Series(data=list(dataset.values()), index=list(dataset.keys()))
+1230/242: dataset = _236
+1230/243: dataset_s = pd.Series(data=list(dataset.values()), index=list(dataset.keys()))
+1230/244: dataset_s
+1230/245: dataset = dataset_s
+1230/246: dataset.to_csv('mangaki_nsfw_small.csv')
+1230/247: X = df[dataset.index]
+1230/248: X = df.loc[dataset.index]
+1230/249: y = dataset
+1230/250: # ElasticNetCV
+1230/251: en = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y)
+1230/252: X.shape
+1230/253: en.l1_ratio_
+1230/254: en = ElasticNetCV().fit(X, y)
+1230/255: en.l1_ratio_
+1230/256: %recall 251
+1230/257: en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y)
+1230/258: en_cv.score(X, y)
+1230/259: en.score(X, y)
+1230/260: zip(X.columns, en_safe.coef_)
+1230/261: pd.Series(en_cv.coef_, X.columns)
+1230/262: pd.Series(en_cv.coef_, X.columns).sort_values()
+1230/263: really_safe = df[df['safe'] > 0.7]
+1230/264: really_unsafe = df[df['safe'] < 0.3]
+1230/265: really_safe.shape
+1230/266: really_unsafe.shape
+1230/267: really_safe['NSFW'] = 0
+1230/268: df
+1230/269: df.columns
+1230/270: 'NSFW' in df.columns
+1230/271: 'NSFW' in really_safe.columns
+1230/272: really_safe.add?
+1230/273: really_safe.add('NSFW', fill_value=0)
+1230/274: really_safe.add('NSFW', axis='columns')
+1230/275: really_safe['NSFW'] = 0
+1230/276: really_unsafe.loc[:, 'NSFW']
+1230/277: really_unsafe.loc[:, 'NSFW'] = 1
+1230/278: really_unsafe
+1230/279: safety_df = pd.stack([really_safe, really_unsafe])
+1230/280: safety_df = np.stack([really_safe, really_unsafe])
+1230/281: safety_df = pd.concat([really_safe, really_unsafe])
+1230/282: safety_df.sort_index()
+1230/283: # en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X,
+1230/284: en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(safety_df[list(general_tags)], safety_df['NSFW'])
+1230/285: general_tags = list(general_tags)
+1230/286: en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(safety_df[general_tags], safety_df['NSFW'])
+1230/287: en_cv.l1_ratio_
+1230/288: pd.Series(zip(general_tags, en_cv.coef_))
+1230/289: pd.Series(list(zip(general_tags, en_cv.coef_)))
+1230/290: pd.Series(en_cv.coef_, general_tags)
+1230/291: pd.Series(en_cv.coef_, general_tags).sort_values()
+1230/292: en = ElasticNetCV().fit(safety_df[general_tags], safety_df['NSFW'])
+1230/293: en.score(safety_def[general_tags], safety_df['NSFW'])
+1230/294: en.score(safety_df[general_tags], safety_df['NSFW'])
+1230/295: en_Cv.score(safety_df[general_tags], safety_df['NSFW'])
+1230/296: en_cv.score(safety_df[general_tags], safety_df['NSFW'])
+1230/297: en.l1_ratio_
+1230/298: pd.Series(en.coef_, general_tags).sort_values()
+1230/299: pd.Series(en.coef_, general_tags).sort_values() > 0.1
+1230/300: pd.Series(en.coef_, general_tags).sort_values().filter
+1230/301: pd.Series(en.coef_, general_tags).sort_values().filter(lambda x: x > 0.1)
+1230/302: pd.Series(en.coef_, general_tags).sort_values().filter(0.1)
+1230/303: __temp = pd.Series(en.coef_, general_tags).sort_values(); __temp[__temp > 0.1]
+1230/304: __temp = pd.Series(en.coef_, general_tags).sort_values(); __temp[__temp > 0.1].index
+1230/305: __temp = pd.Series(en.coef_, general_tags).sort_values(); relevant_trags = list(__temp[__temp > 0.1].index)
+1230/306: relevant_tags
+1230/307: relevant_trags
+1230/308: relevant_tags = relevant_trags
+1230/309: relevant_tags += ['explicit', 'questionable', 'safe']
+1230/310: # dataset.to_csv('mangaki_nsfw_small.csv')
+1230/311: dataset
+1230/312: X = df.loc[dataset.index]
+1230/313: y = dataset
+1230/314: # en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y)
+1230/315: X = df.loc[dataset.index, relevant_tags]
+1230/316: en_cv = ElasticNetCV(l1_ratio=[.1, .5, .7, .9, .95, .99, 1]).fit(X, y)
+1230/317: en_cv.l1_ratio_
+1230/318: en_cv.score(X, y)
+1230/319: pd.Series(en_cv.coef_, X.columns)
+1230/320: pd.Series(en_cv.coef_, X.columns).sort_values()
+1230/321: from sklearn.linear_model import BayesianRidge
+1230/322: from sklearn.linear_model import LogisticRegressionCV
+1230/323: lr_cv = LogisticRegressionCV().fit(X, y)
+1230/324: lr_cv.score(X, y)
+1230/325: lr_cv.coef_
+1230/326: pd.Series(lr_cv.coef_, X.columns).sort_values()
+1230/327: pd.Series(lr_cv.coef_[0], X.columns).sort_values()
+1230/328: lr_cv.predict_proba(df[X.columns])
+1230/329: nsfw_proba = lr_cv.predict_proba(df[X.columns])[:, 1]
+1230/330: nsfw_proba = pd.Series(nsfw_proba, df.index)
+1230/331: nsfw_proba.sort_values()
+1230/332: nsfw_proba.sort_values().index
+1230/333:
+for i in nsfw_proba.sort_values().index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:s}.jpg'.format(i))
+1230/334:
+for i in nsfw_proba.sort_values().index[:10]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+1230/335:
+for i in nsfw_proba.sort_values().index[-10:]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+1230/336: nsfw_proba.sort_values?
+1230/337:
+for i in nsfw_proba.sort_values(ascending=False).index[:2]:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+1230/338:
+for i in nsfw_proba.sort_values(ascending=False).index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/339: i
+1230/340: nsfw_proba.sort_values(ascending=False).index.find(i)
+1230/341: list(nsfw_proba.sort_values(ascending=False).index).find(i)
+1230/342: list(nsfw_proba.sort_values(ascending=False).index).index(i)
+1230/343: len(list(nsfw_proba.sort_values(ascending=False).index))
+1230/344: nsfw_proba.loc[i]
+1230/345: nsfw_proba.sort_values(ascending=False)
+1230/346: nsfw_proba[nsfw_proba > 0.5]
+1230/347: nsfw_proba[nsfw_proba > 0.5].sort_values()
+1230/348:
+for i in nsfw_proba[nsfw_proba > 0.5].sort_values().index
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/349:
+for i in nsfw_proba[nsfw_proba > 0.5].sort_values().index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/350:
+for i in nsfw_proba[nsfw_proba > 0.7].sort_values().index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/351:
+for i in nsfw_proba[nsfw_proba < 0.3].sort_values().index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/352:
+for i in nsfw_proba[nsfw_proba < 0.3].sort_values().index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
+1230/353:
+for i in nsfw_proba[nsfw_proba > 0.7].sort_values().index:
+    os.system('sxiv /data/elarnon/mangaki_posters/{:d}.jpg'.format(i))
+    if input() == 'bad':
+        break
